@@ -1,4 +1,7 @@
+import Hero from "./hero";
+import CustomButton from "./CustomButton";
 
-export default function Index() {
-
+export {
+    Hero,
+    CustomButton
   }

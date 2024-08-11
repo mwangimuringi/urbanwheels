@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import CustomButton from './CustomButton'
-import { CustomButtonProps } from '@/types'
 import Image from 'next/image'
 
 const Hero = () => {
@@ -26,10 +25,14 @@ const Hero = () => {
         {/* image body */}
     <div className="hero__image = container">
       <div className="hero__image">
-        <Image src='./hero.png' 
-        alt='hero'
-        fill className='object-contain'
+        <Image 
+          // src="/pattern.png"
+          src={`/hero.png`}
+          alt="hero"
+          fill
+          className="object-contain"
         />
+        <div className="hero__image-overlay"/>
       </div>
     </div>
 

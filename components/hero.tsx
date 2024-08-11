@@ -17,25 +17,22 @@ const Hero = () => {
         Streamline your car rental experience with our effortless booking process.
       </p>
       <CustomButton
-      title = "Explore cars"
-      containerStyles = "bg-primary-blue text-white rounded-full mt-10"
-      handleClick = {handleScroll}
-      />
+          title="Explore cars"
+          containerStyles="bg-primary-blue text-white rounded-full mt-10"
+          handleClick={handleScroll} btnType={'button'}      />
     </div>
         {/* image body */}
-    <div className="hero__image = container">
+    <div className="hero__image-container">
       <div className="hero__image">
         <Image 
-          // src="/pattern.png"
           src={`/hero.png`}
           alt="hero"
           fill
           className="object-contain"
         />
-        <div className="hero__image-overlay"/>
       </div>
+        <div className="hero__image-overlay"/>
     </div>
-
    </div>
   )
 }

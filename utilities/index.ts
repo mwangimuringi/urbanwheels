@@ -46,8 +46,8 @@ export async function fetchCars(filters: FilterProps) {
 
   // Set the required headers for the API request
   const headers: HeadersInit = {
-    "X-RapidAPI-Key: bbea7d2b12mshbea29ea1f6150f5p169463jsnd55622afbed6 ",
-    "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
+    "X-RapidAPI-Key": "bbea7d2b12mshbea29ea1f6150f5p169463jsnd55622afbed6 ", 
+    "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com"
   };
 
   // Set the required headers for the API request
@@ -80,7 +80,7 @@ export const generateCarImageUrl = (car: CarProps, angle?: string) => {
 } 
 
 
-curl --request GET \
-	--url 'https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?model=corolla' \
-	--header 'x-rapidapi-host: cars-by-api-ninjas.p.rapidapi.com' \
-	--header 'x-rapidapi-key: bbea7d2b12mshbea29ea1f6150f5p169463jsnd55622afbed6'
+// curl --request GET \
+// 	--url 'https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?model=corolla' \
+// 	--header 'x-rapidapi-host: cars-by-api-ninjas.p.rapidapi.com' \
+// 	--header 'x-rapidapi-key: bbea7d2b12mshbea29ea1f6150f5p169463jsnd55622afbed6'

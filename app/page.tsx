@@ -1,11 +1,16 @@
+import CarCard from '@/components/CarCard'
 import CustomFilter from '@/components/CustomFilter'
 import Hero from '@/components/hero'
 import SearchBar from '@/components/SearchBar'
+import { fetchCars } from '@/utilities'
+import { Console } from 'console'
 import React from 'react'
 
-const page = () => {
+export default async function Home() {
+  const allCars = await fetchCars();
+  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars
   return (
-    <div className="overflow-hidden">
+    <main className="overflow-hidden">
       < Hero />
       <div className="mt-12 px-1 py-1 max-width " id='discover'>
         <div className="home__text-container">
@@ -15,13 +20,28 @@ const page = () => {
         <div className="home__filters">
           <SearchBar />
           <div className="home__filter-container">
-            <CustomFilter  title = "fuel"/>
-            <CustomFilter  title = "year"/>
+            <CustomFilter title="fuel" />
+            <CustomFilter title="year" />
           </div>
         </div>
+
+        {!isDataEmpty ? (
+          <section>
+            <div className='home__cars-wrapper'>
+              {allCars?.map((car) => (
+                <CarCard car={car} />
+              ))}
+            </div>
+          </section>
+        ) : (
+          <div className='home__error-container'>
+            <h2 className='text-black text-xl font-bold'>OOPS, NO CAR</h2>
+            <p>{allCars?.message}</p>
+          </div>
+        )}
       </div>
-    </div>
+    </main>
   )
 }
 
-export default page
+

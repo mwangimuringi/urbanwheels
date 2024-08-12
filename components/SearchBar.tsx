@@ -6,6 +6,8 @@ import SearchManufacturer from './SearchManufacturer'
 
 const SearchBar = () => {
     const [manufacturer ,setManufacturer] = useState('');
+
+    //car to be searched
     const handleSearch = () => {
     }
   return (

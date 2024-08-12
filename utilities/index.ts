@@ -46,7 +46,7 @@ export async function fetchCars(filters: FilterProps) {
 
   // Set the required headers for the API request
   const headers: HeadersInit = {
-    "X-RapidAPI-Key": "bbea7d2b12mshbea29ea1f6150f5p169463jsnd55622afbed6 ", 
+    "X-RapidAPI-Key": "bbea7d2b12mshbea29ea1f6150f5p169463jsnd55622afbed6 ",
     "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com"
   };
 
@@ -57,10 +57,8 @@ export async function fetchCars(filters: FilterProps) {
       headers: headers,
     }
   );
-
   // Parse the response as JSON
   const result = await response.json();
-
   return result;
 }
 
@@ -77,7 +75,7 @@ export const generateCarImageUrl = (car: CarProps, angle?: string) => {
   url.searchParams.append('angle', `${angle}`);
 
   return `${url}`;
-} 
+}
 
 
 // curl --request GET \

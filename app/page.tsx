@@ -4,10 +4,11 @@ import CustomFilter from '@/components/CustomFilter';
 import Hero from '@/components/hero';
 import SearchBar from '@/components/SearchBar';
 import { fuels, yearsOfProduction } from '@/constants';
+import { HomeProps } from '@/types';
 import { fetchCars } from '@/utilities';
 import React from 'react'
 
-export default async function Home({searchParams}) {
+export default async function Home({searchParams}: HomeProps) {
   const allCars = await fetchCars({
     manufacturer: searchParams.manufacturer || "",
     year: searchParams.year || 2024,
@@ -42,7 +43,7 @@ export default async function Home({searchParams}) {
 
             <ShowMore 
              pageNumber={(searchParams.limit || 10) / 10}
-             isNext={(searchParams.limit || 10) > allCars.length}
+              isNext={(searchParams.limit || 10) > allCars.length}
             />
           </section>
         ) : (

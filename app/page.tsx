@@ -38,6 +38,8 @@ export default async function Home({searchParams}) {
                 <CarCard car={car} />
               ))}
             </div>
+
+            
           </section>
         ) : (
           <div className='home__error-container'>

@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.2",
     "next": "14.2.5",
+    "next-cloudinary": "^6.10.0",
     "react": "^18",
     "react-dom": "^18"
   },

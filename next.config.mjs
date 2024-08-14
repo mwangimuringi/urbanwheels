@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['cdn.imagin.studio']
+        domains: ['cdn.images.remotePatterns']
     },
     typescript: {
         ignoreBuildErrors: true,

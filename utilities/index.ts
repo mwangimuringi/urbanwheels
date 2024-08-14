@@ -63,10 +63,11 @@ export async function fetchCars(filters: FilterProps) {
 }
 
 export const generateCarImageUrl = (car: CarProps, angle?: string) => {
-  const url = new URL("https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?model=supra");
+  const url = new URL("https://api.unsplash.com/photos");
   const { make, model, year } = car;
 
-  url.searchParams.append('customer', 'hrjavascript-mastery');
+  url.searchParams.append('customer', 'UNSPLASH_ACCESS_KEY');
+  url.searchParams.append('customer', process.env.UNSPLASH_ACCESS_KEY || '');
   url.searchParams.append('make', make);
   url.searchParams.append('modelFamily', model.split(" ")[0]);
   url.searchParams.append('zoomType', 'fullscreen');

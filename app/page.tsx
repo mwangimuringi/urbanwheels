@@ -27,7 +27,7 @@ async function fetchCars({
   model?: string;
 }) {
   try {
-    const cars = await prisma.post.findMany({
+    const cars = await prisma.car.findMany({
       where: {
         AND: [
           { make: { contains: manufacturer, mode: 'insensitive' } },
@@ -37,28 +37,14 @@ async function fetchCars({
         ],
       },
       take: limit,
-      select: {
-        id: true,
-        city_mpg: true,
-        class: true,
-        combination_mpg: true,
-        cylinders: true,
-        displacement: true,
-        drive: true,
-        fuel_type: true,
-        highway_mpg: true,
-        make: true,
-        model: true,
-        transmission: true,
-        year: true,
-      },
     });
-    return { cars, error: null };
+    return cars;
   } catch (error) {
     console.error('Error fetching cars:', error);
-    return { cars: [], error: 'There was an error fetching the car data.' };
+    return [];
   }
 }
+
 
 export default async function Home({ searchParams }: HomeProps) {
   try {

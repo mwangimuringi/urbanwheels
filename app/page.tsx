@@ -1,5 +1,4 @@
-// app/page.tsx
-import { PrismaClient } from '@prisma/client'
+import { fetchCars } from '@/lib/db';
 import { ShowMore } from '@/components';
 import CarCard from '@/components/CarCard';
 import CustomFilter from '@/components/CustomFilter';
@@ -8,60 +7,6 @@ import SearchBar from '@/components/SearchBar';
 import { fuels, yearsOfProduction } from '@/constants';
 import { CarProps, HomeProps } from '@/types';
 import React from 'react';
-
-const prisma = new PrismaClient();
-
-async function fetchCars({
-  manufacturer = '',
-  year = 2024,
-  fuel = '',
-  limit = 10,
-  model = '',
-}: {
-  manufacturer?: string;
-  year?: number;
-  fuel?: string;
-  limit?: number;
-  model?: string;
-}) {
-  try {
-    const cars = await prisma.car.findMany({
-      where: {
-        AND: [
-          { make: { contains: manufacturer, mode: 'insensitive' } },
-          { year: { gte: year } },
-          { fuelType: { contains: fuel, mode: 'insensitive' } },
-          { model: { contains: model, mode: 'insensitive' } },
-        ],
-      },
-      take: limit,
-    });
-
-    // Map the properties
-    const mappedCars: CarProps[] = cars.map(car => ({
-      id: car.id,
-      createdAt: car.createdAt,
-      updatedAt: car.updatedAt,
-      cityMpg: car.cityMpg,
-      combinationMpg: car.combinationMpg,
-      cylinders: car.cylinders,
-      displacement: car.displacement,
-      drive: car.drive,
-      fuelType: car.fuelType,
-      highwayMpg: car.highwayMpg,
-      make: car.make,
-      model: car.model,
-      transmission: car.transmission,
-      year: car.year,
-    }));
-
-    return mappedCars;
-  } catch (error) {
-    console.error('Error fetching cars:', error);
-    return [];
-  }
-}
-
 
 export default async function Home({ searchParams }: HomeProps) {
   try {
@@ -126,7 +71,5 @@ export default async function Home({ searchParams }: HomeProps) {
         </div>
       </main>
     );
-  } finally {
-    await prisma.$disconnect(); // Ensure Prisma Client is disconnected
   }
 }

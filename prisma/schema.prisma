@@ -12,19 +12,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  name         String?
+  password_hash String
+  transactions Transaction[]
+}
+
 model Car {
-  id              Int      @id @default(autoincrement())
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  city_mpg        Int
-  combination_mpg Int
+  id              Int          @id @default(autoincrement())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  city_mpg         Int
+  combination_mpg  Int
   cylinders       Int
   displacement    Float
   drive           String
-  fuel_type       String
-  highway_mpg     Int
+  fuel_type        String
+  highway_mpg      Int
   make            String
   model           String
   transmission    String
   year            Int
+  transactions    Transaction[]
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  carId     Int
+  date      DateTime @default(now())
+  amount    Float
+  user      User    @relation(fields: [userId], references: [id])
+  car       Car     @relation(fields: [carId], references: [id])
 }

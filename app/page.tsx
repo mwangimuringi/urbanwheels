@@ -1,18 +1,16 @@
-"use client";
-
-import { PrismaClient } from '@prisma/client';
+// app/page.tsx
+import { PrismaClient } from '@prisma/client'
 import { ShowMore } from '@/components';
 import CarCard from '@/components/CarCard';
 import CustomFilter from '@/components/CustomFilter';
 import Hero from '@/components/hero';
 import SearchBar from '@/components/SearchBar';
 import { fuels, yearsOfProduction } from '@/constants';
-import { HomeProps } from '@/types';
+import { CarProps, HomeProps } from '@/types';
 import React from 'react';
 
 const prisma = new PrismaClient();
 
-// Fetch cars from the database
 async function fetchCars({
   manufacturer = '',
   year = 2024,
@@ -32,24 +30,42 @@ async function fetchCars({
         AND: [
           { make: { contains: manufacturer, mode: 'insensitive' } },
           { year: { gte: year } },
-          { fuel_type: { contains: fuel, mode: 'insensitive' } },
+          { fuelType: { contains: fuel, mode: 'insensitive' } },
           { model: { contains: model, mode: 'insensitive' } },
         ],
       },
       take: limit,
     });
-    return { cars, error: null }; // Return cars and null error
+
+    // Map the properties
+    const mappedCars: CarProps[] = cars.map(car => ({
+      id: car.id,
+      createdAt: car.createdAt,
+      updatedAt: car.updatedAt,
+      cityMpg: car.cityMpg,
+      combinationMpg: car.combinationMpg,
+      cylinders: car.cylinders,
+      displacement: car.displacement,
+      drive: car.drive,
+      fuelType: car.fuelType,
+      highwayMpg: car.highwayMpg,
+      make: car.make,
+      model: car.model,
+      transmission: car.transmission,
+      year: car.year,
+    }));
+
+    return mappedCars;
   } catch (error) {
     console.error('Error fetching cars:', error);
-    return { cars: [], error: 'Failed to fetch cars' }; // Return empty cars and error message
+    return [];
   }
 }
 
 
-
 export default async function Home({ searchParams }: HomeProps) {
   try {
-    const { cars, error } = await fetchCars({
+    const cars = await fetchCars({
       manufacturer: searchParams.manufacturer || '',
       year: searchParams.year || 2024,
       fuel: searchParams.fuel || '',
@@ -79,7 +95,7 @@ export default async function Home({ searchParams }: HomeProps) {
             <section>
               <div className='home__cars-wrapper'>
                 {cars.map((car) => (
-                  <CarCard key={car.id} car={car} /> 
+                  <CarCard key={car.id} car={car} />
                 ))}
               </div>
 
@@ -91,7 +107,7 @@ export default async function Home({ searchParams }: HomeProps) {
           ) : (
             <div className="home__error-container">
               <h2 className="text-black text-xl font-bold">OOPS, NO CAR</h2>
-              <p>{error || 'No cars available based on your search criteria.'}</p>
+              <p>No cars available based on your search criteria.</p>
             </div>
           )}
         </div>

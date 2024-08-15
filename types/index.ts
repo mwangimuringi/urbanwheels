@@ -17,19 +17,22 @@ export interface SearchManufacturerProps {
 }
 
 export interface CarProps {
-  id: number; // Changed from string to number
-  city_mpg: number;
-  combination_mpg: number;
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  cityMpg: number;
+  combinationMpg: number;
   cylinders: number;
   displacement: number;
   drive: string;
-  fuel_type: string;
-  highway_mpg: number;
+  fuelType: string;
+  highwayMpg: number;
   make: string;
   model: string;
   transmission: string;
   year: number;
 }
+
 
 
 export interface HomeProps {

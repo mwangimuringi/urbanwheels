@@ -17,7 +17,7 @@ export interface SearchManufacturerProps {
 }
 
 export interface CarProps {
-  id: string;
+  id: number; // Changed from string to number
   city_mpg: number;
   combination_mpg: number;
   cylinders: number;
@@ -30,6 +30,7 @@ export interface CarProps {
   transmission: string;
   year: number;
 }
+
 
 export interface HomeProps {
   searchParams: FilterProps;

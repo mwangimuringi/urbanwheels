@@ -38,12 +38,13 @@ async function fetchCars({
       },
       take: limit,
     });
-    return cars;
+    return { cars, error: null }; // Return cars and null error
   } catch (error) {
     console.error('Error fetching cars:', error);
-    return [];
+    return { cars: [], error: 'Failed to fetch cars' }; // Return empty cars and error message
   }
 }
+
 
 
 export default async function Home({ searchParams }: HomeProps) {
@@ -77,8 +78,8 @@ export default async function Home({ searchParams }: HomeProps) {
           {!isDataEmpty ? (
             <section>
               <div className='home__cars-wrapper'>
-                {cars?.map((car) => (
-                  <CarCard key={car.id} car={car} />
+                {cars.map((car) => (
+                  <CarCard key={car.id} car={car} /> 
                 ))}
               </div>
 

@@ -1,3 +1,6 @@
+"use client";
+
+import { PrismaClient } from '@prisma/client';
 import { ShowMore } from '@/components';
 import CarCard from '@/components/CarCard';
 import CustomFilter from '@/components/CustomFilter';
@@ -5,56 +8,122 @@ import Hero from '@/components/hero';
 import SearchBar from '@/components/SearchBar';
 import { fuels, yearsOfProduction } from '@/constants';
 import { HomeProps } from '@/types';
-import { fetchCars } from '@/utilities';
-import React from 'react'
+import React from 'react';
 
-export default async function Home({searchParams}: HomeProps) {
-  const allCars = await fetchCars({
-    manufacturer: searchParams.manufacturer || "",
-    year: searchParams.year || 2024,
-    fuel: searchParams.fuel || "",
-    limit: searchParams.limit || 10,
-    model: searchParams.model || "",
-  });
-  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars
-  return (
-    <main className="overflow-hidden">
-      < Hero />
-      <div className="mt-12 px-1 py-1 max-width " id='discover'>
-        <div className="home__text-container">
-          <h1 className='text-4xl font-extrabold'>Car Catalogue</h1>
-          <p>Explore cars you might like</p>
-        </div>
-        <div className="home__filters">
-          <SearchBar />
-          <div className="home__filter-container">
-          <CustomFilter title='fuel' options={fuels} />
-          <CustomFilter title='year' options={yearsOfProduction} />
-          </div>
-        </div>
+const prisma = new PrismaClient();
 
-        {!isDataEmpty ? (
-          <section>
-            <div className='home__cars-wrapper'>
-              {allCars?.map((car) => (
-                <CarCard car={car} />
-              ))}
-            </div>
-
-            <ShowMore 
-             pageNumber={(searchParams.limit || 10) / 10}
-              isNext={(searchParams.limit || 10) > allCars.length}
-            />
-          </section>
-        ) : (
-          <div className='home__error-container'>
-            <h2 className='text-black text-xl font-bold'>OOPS, NO CAR</h2>
-            <p>{allCars?.message}</p>
-          </div>
-        )}
-      </div>
-    </main>
-  )
+// Fetch cars from the database
+async function fetchCars({
+  manufacturer = '',
+  year = 2024,
+  fuel = '',
+  limit = 10,
+  model = '',
+}: {
+  manufacturer?: string;
+  year?: number;
+  fuel?: string;
+  limit?: number;
+  model?: string;
+}) {
+  try {
+    const cars = await prisma.post.findMany({
+      where: {
+        AND: [
+          { make: { contains: manufacturer, mode: 'insensitive' } },
+          { year: { gte: year } },
+          { fuel_type: { contains: fuel, mode: 'insensitive' } },
+          { model: { contains: model, mode: 'insensitive' } },
+        ],
+      },
+      take: limit,
+      select: {
+        id: true,
+        city_mpg: true,
+        class: true,
+        combination_mpg: true,
+        cylinders: true,
+        displacement: true,
+        drive: true,
+        fuel_type: true,
+        highway_mpg: true,
+        make: true,
+        model: true,
+        transmission: true,
+        year: true,
+      },
+    });
+    return { cars, error: null };
+  } catch (error) {
+    console.error('Error fetching cars:', error);
+    return { cars: [], error: 'There was an error fetching the car data.' };
+  }
 }
 
+export default async function Home({ searchParams }: HomeProps) {
+  try {
+    const { cars, error } = await fetchCars({
+      manufacturer: searchParams.manufacturer || '',
+      year: searchParams.year || 2024,
+      fuel: searchParams.fuel || '',
+      limit: searchParams.limit || 10,
+      model: searchParams.model || '',
+    });
 
+    const isDataEmpty = !Array.isArray(cars) || cars.length < 1;
+
+    return (
+      <main className="overflow-hidden">
+        <Hero />
+        <div className="mt-12 px-1 py-1 max-width" id="discover">
+          <div className="home__text-container">
+            <h1 className="text-4xl font-extrabold">Car Catalogue</h1>
+            <p>Explore cars you might like</p>
+          </div>
+          <div className="home__filters">
+            <SearchBar />
+            <div className="home__filter-container">
+              <CustomFilter title="fuel" options={fuels} />
+              <CustomFilter title="year" options={yearsOfProduction} />
+            </div>
+          </div>
+
+          {!isDataEmpty ? (
+            <section>
+              <div className='home__cars-wrapper'>
+                {cars?.map((car) => (
+                  <CarCard key={car.id} car={car} />
+                ))}
+              </div>
+
+              <ShowMore
+                pageNumber={(searchParams.limit || 10) / 10}
+                isNext={(searchParams.limit || 10) > cars.length}
+              />
+            </section>
+          ) : (
+            <div className="home__error-container">
+              <h2 className="text-black text-xl font-bold">OOPS, NO CAR</h2>
+              <p>{error || 'No cars available based on your search criteria.'}</p>
+            </div>
+          )}
+        </div>
+      </main>
+    );
+  } catch (error) {
+    console.error(error);
+    return (
+      <main className="overflow-hidden">
+        <Hero />
+        <div className="mt-12 px-1 py-1 max-width" id="discover">
+          <div className="home__error-container">
+            <h2 className="text-black text-xl font-bold">Error</h2>
+            <p>There was an error fetching the car data.</p>
+          </div>
+        </div>
+      </main>
+    );
+  } finally {
+    await prisma.$disconnect(); // Ensure Prisma Client is disconnected
+  }
+}

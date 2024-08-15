@@ -1,6 +1,4 @@
-"use client";
-import Image from 'next/image'
-
+import Image from 'next/image';
 import { CarProps } from "@/types";
 import { calculateCarRent, generateCarImageUrl } from "@/utilities";
 import CustomButton from './CustomButton';
@@ -12,7 +10,7 @@ interface CarCardProps {
 }
 
 const CarCard = ({ car }: CarCardProps) => {
-    const { city_mpg, year, make, model, transmission, drive } = car;
+    const { city_mpg, drive, make, model, transmission, year} = car;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -33,7 +31,7 @@ const CarCard = ({ car }: CarCardProps) => {
             </p>
             <div className='relative w-full h-40 my-3 object-contain'>
                 <Image
-                    src={generateCarImageUrl(car)} alt="car model"fill priority className='object-contain'
+                    src={generateCarImageUrl(car)} alt="car model" fill priority className='object-contain'
                 />
             </div>
 
@@ -42,15 +40,15 @@ const CarCard = ({ car }: CarCardProps) => {
                     <div className='flex flex-col justify-center items-center gap-2'>
                         <Image src={'/steering-wheel.svg'} width={20} height={20} alt='steering wheel' />
                         <p className='text-[14px] leading-[17px]'>
-                            {transmission === "a" ? "Automatic" : "Manual"}
+                            {transmission === "automatic" ? "Automatic" : "Manual"}
                         </p>
                     </div>
                     <div className="car-card__icon">
-                        <Image src="/tire.svg" width={20} height={20} alt="seat" />
+                        <Image src="/tire.svg" width={20} height={20} alt="drive type" />
                         <p className="car-card__icon-text">{drive.toUpperCase()}</p>
                     </div>
                     <div className="car-card__icon">
-                        <Image src="/gas.svg" width={20} height={20} alt="seat" />
+                        <Image src="/gas.svg" width={20} height={20} alt="MPG" />
                         <p className="car-card__icon-text">{city_mpg} MPG</p>
                     </div>
                 </div>
@@ -73,4 +71,4 @@ const CarCard = ({ car }: CarCardProps) => {
     )
 }
 
-export default CarCard
+export default CarCard;

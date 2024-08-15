@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    experimental: {
+        appDir: true,
+        serverComponentsExternalPackages: ['@prisma/client', 'bcrypt']
+    },
     images: {
         domains: ['cdn.images.remotePatterns']
     },
@@ -7,5 +11,4 @@ const nextConfig = {
         ignoreBuildErrors: true,
     }
 };
-
 export default nextConfig;

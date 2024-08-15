@@ -5,7 +5,7 @@ import CustomFilter from '@/components/CustomFilter';
 import Hero from '@/components/hero';
 import SearchBar from '@/components/SearchBar';
 import { fuels, yearsOfProduction } from '@/constants';
-import { CarProps, HomeProps } from '@/types';
+import {  HomeProps } from '@/types';
 import React from 'react';
 
 export default async function Home({ searchParams }: HomeProps) {

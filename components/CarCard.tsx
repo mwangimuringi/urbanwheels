@@ -1,3 +1,4 @@
+"use client";
 import Image from 'next/image';
 import { CarProps } from "@/types";
 import { calculateCarRent, generateCarImageUrl } from "@/utilities";

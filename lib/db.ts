@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { CarProps } from '@/types';
 
-const prisma = new PrismaClient();
+const db = new PrismaClient();
+const globalForPrisma = global as unknown as { prisma: PrismaClient }
 
 export async function fetchCars({
   manufacturer = '',
@@ -55,3 +56,11 @@ export async function fetchCars({
     await prisma.$disconnect(); // Ensure Prisma Client is disconnected
   }
 }
+
+export const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    log: ['query']
+  })
+
+  if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma

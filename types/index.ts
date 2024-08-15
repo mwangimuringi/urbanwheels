@@ -33,6 +33,9 @@ export interface CarProps {
   year: number;
 }
 
+//  export interface SignUpProps {
+//   children: React.ReactNode;
+// }
 
 
 export interface HomeProps {

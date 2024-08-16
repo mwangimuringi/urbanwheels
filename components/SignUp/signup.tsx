@@ -1,29 +1,58 @@
-import React from 'react';
+"use client";
 import { signIn, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import CustomButton from '../CustomButton';
 
-// LoginButton Component
-export const LoginButton = () => {
+// SignInButton Component
+export const SignInButton = () => {
+  const router = useRouter();
+
+  const handleSignIn = async () => {
+    const result = await signIn('credentials', {
+      redirect: false,
+      callbackUrl: `${window.location.origin}`,
+    });
+
+    if (!result) {
+      console.error('Sign-in failed: No result returned');
+      return;
+    }
+
+    if (result.error) {
+      router.push('/signup'); // Redirect to sign-up page if sign-in fails
+    } else if (result.url) {
+      router.push(result.url);
+    } else {
+      router.push('/'); // Default redirect if result.url is not provided
+    }
+  };
+
   return (
-    <button
-      onClick={() => signIn()}
-      className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    >
-      Sign In
-    </button>
+    <CustomButton
+      title="Sign In"
+      btnType="button"
+      containerStyles="text-primary-blue rounded-full bg-white min-w-[130px]"
+      textStyles=""
+      isDisabled={false}
+      onClick={handleSignIn}
+    />
   );
 };
 
 // SignOutButton Component
 export const SignOutButton = () => {
   return (
-    <button
+    <CustomButton
+      title="Sign Out"
+      btnType="button"
+      containerStyles="text-primary-blue rounded-full bg-white min-w-[130px]"
+      textStyles=""
+      isDisabled={false}
       onClick={() => signOut()}
-      className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    >
-      Sign Out
-    </button>
+    />
   );
 };
+
 
 const SignUp = () => {
   return (
@@ -74,7 +103,7 @@ const SignUp = () => {
             />
           </div>
           <div className="flex items-center justify-between">
-            <LoginButton />
+            <SignInButton />
           </div>
         </form>
         <div className="mt-6 text-center">

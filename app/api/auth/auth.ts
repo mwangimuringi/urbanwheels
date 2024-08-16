@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
 
         const isPasswordValid = await compare(
           credentials.password,
-          user.passwordHash
+          user.password
         )
 
         if (!isPasswordValid) {
@@ -56,6 +56,8 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
+
+  //adding custom key to our session. we are storing arbitrary key in jwt
   callbacks: {
     session: ({ session, token }) => {
       console.log('Session Callback', { session, token })

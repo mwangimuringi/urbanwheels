@@ -11,11 +11,15 @@ import React, { Fragment } from "react";
 import Image from "next/image";
 import { generateCarImageUrl } from "@/utilities";
 
-interface CarDetailsProps {
-  isOpen: boolean;
-  closeModal: () => void;
-  car: CarProps;
-}
+interface CarProps {
+    make: string;
+    model: string;
+    year: number;
+    engineType?: string;
+    color?: string;
+    [key: string]: string | number | undefined;
+  }
+  
 
 const CarImage = ({ src, alt }: { src: string; alt: string }) => (
   <div className="relative w-full h-24 bg-primary-blue-100 rounded-lg">

@@ -68,31 +68,30 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
               leaveTo="opacity-0 scale-95"
             >
               <DialogPanel className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto transform rounded-2xl bg-white p-6 text-left shadow-xl transition-all flex flex-col gap-5">
-                <button
-                  type="button"
-                  className="absolute top-2 right-2 z-10 w-fit p-2 bg-primary-blue-100 rounded-full"
-                  onClick={closeModal}
-                  aria-label="Close details"
-                >
-                  <Image
-                    src={"/close.svg"}
-                    alt="Close"
-                    width={20}
-                    height={20}
-                    className="object-contain"
-                  />
-                </button>
+              <button
+  type="button"
+  className="absolute top-2 right-2 z-10 w-fit p-2 bg-primary-blue-100 rounded-full"
+  onClick={closeModal}
+  aria-label="Close details"
+  title="Close details"
+>
+  <Image
+    src={"/close.svg"}
+    alt="Close"
+    width={20}
+    height={20}
+    className="object-contain"
+  />
+</button>
 
-                <div className="flex-1 flex flex-col gap-3">
-                  <div className="relative w-full h-40 bg-pattern bg-cover bg-center rounded-lg">
-                    <Image
-                      src={"/hero.png"}
-                      alt="Car model"
-                      fill
-                      priority
-                      className="object-contain"
-                    />
-                  </div>
+<Image
+  src={"/hero.png"}
+  alt="Primary car model image"
+  fill
+  priority
+  className="object-contain"
+/>
+
 
                   <div className="flex gap-3">
                     {["29", "33", "27"].map((angle) => (

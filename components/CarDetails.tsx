@@ -21,11 +21,14 @@ interface CarProps {
   }
   
 
-const CarImage = ({ src, alt }: { src: string; alt: string }) => (
-  <div className="relative w-full h-24 bg-primary-blue-100 rounded-lg">
-    <Image src={src} alt={alt} fill priority className="object-contain" />
-  </div>
-);
+  const commonImageClass = "relative w-full h-24 bg-primary-blue-100 rounded-lg";
+
+  const CarImage = ({ src, alt }: { src: string; alt: string }) => (
+    <div className={commonImageClass}>
+      <Image src={src} alt={alt} fill priority className="object-contain" />
+    </div>
+  );
+  
 
 const CarInfoItem = ({
   label,

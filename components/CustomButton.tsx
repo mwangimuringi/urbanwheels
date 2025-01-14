@@ -24,7 +24,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       type={btnType || "button"}
       aria-disabled={isDisabled}
       className={`custom-btn ${containerStyles} ${isDisabled ? "cursor-not-allowed opacity-50" : ""}`} // Disabled button styles
-      onClick={handleButtonClick} // Updated to handle click conditionally
+      onClick={handleButtonClick}
     >
       <span className={`flex-1 ${textStyles}`}>{title}</span>
       {rightIcon && (

@@ -23,7 +23,13 @@ const CarImage = ({ src, alt }: { src: string; alt: string }) => (
   </div>
 );
 
-const CarInfoItem = ({ label, value }: { label: string; value: string | number }) => (
+const CarInfoItem = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | number;
+}) => (
   <div className="flex justify-between gap-5 w-full text-right">
     <h4 className="text-grey capitalize">{label}</h4>
     <p className="text-black-100 font-semibold">{value}</p>
@@ -100,19 +106,23 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                 </div>
 
                 <div className="flex-1 flex flex-col gap-2">
-                  <h2 className="font-semibold text-xl capitalize">
-                    {car.make} {car.model}
-                  </h2>
+                  {car.make && car.model && (
+                    <h2 className="font-semibold text-xl capitalize">
+                      {car.make} {car.model}
+                    </h2>
+                  )}
 
-                  <div className="mt-3 flex flex-wrap gap-4">
-                    {carInfo.map(([key, value]) => (
-                      <CarInfoItem
-                        key={key}
-                        label={key.split("_").join(" ")}
-                        value={value}
-                      />
-                    ))}
-                  </div>
+                  {carInfo.length > 0 && (
+                    <div className="mt-3 flex flex-wrap gap-4">
+                      {carInfo.map(([key, value]) => (
+                        <CarInfoItem
+                          key={key}
+                          label={key.split("_").join(" ")}
+                          value={value}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </DialogPanel>
             </TransitionChild>

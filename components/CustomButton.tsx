@@ -14,8 +14,9 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 }) => {
   return (
     <button
-      disabled={isDisabled} // Updated to use isDisabled prop
+      disabled={isDisabled}
       type={btnType || "button"}
+      aria-disabled={isDisabled} // Added aria-disabled for accessibility
       className={`custom-btn ${containerStyles}`}
       onClick={handleClick}
     >

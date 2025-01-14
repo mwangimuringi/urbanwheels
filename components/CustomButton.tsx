@@ -12,21 +12,12 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   rightIcon,
   isDisabled,
 }) => {
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (!isDisabled && handleClick) {
-      handleClick(event);
-    }
-  };
-
   return (
     <button
       disabled={isDisabled}
       type={btnType || "button"}
-      aria-disabled={isDisabled}
-      className={`custom-btn ${containerStyles} ${
-        isDisabled ? "cursor-not-allowed opacity-50" : ""
-      }`} // Disabled button styles
-      onClick={handleButtonClick}
+      className={`custom-btn ${containerStyles}`}
+      onClick={handleClick}
     >
       <span className={`flex-1 ${textStyles}`}>{title}</span>
       {rightIcon && (

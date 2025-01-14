@@ -23,13 +23,7 @@ const CarImage = ({ src, alt }: { src: string; alt: string }) => (
   </div>
 );
 
-const CarInfoItem = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | number;
-}) => (
+const CarInfoItem = ({ label, value }: { label: string; value: string | number }) => (
   <div className="flex justify-between gap-5 w-full text-right">
     <h4 className="text-grey capitalize">{label}</h4>
     <p className="text-black-100 font-semibold">{value}</p>

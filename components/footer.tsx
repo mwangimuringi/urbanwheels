@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <footer className="flex flex-col text-black mt-5 border-t bg-gray-100">
-      <section className="flex max-md:flex-col flex-wrap justify-between gap-5 sm:px-16 px-6 py-10">
+      <section className="flex flex-col lg:flex-row justify-between gap-8 sm:px-16 px-6 py-10">
         <div className="flex flex-col justify-start items-start gap-6">
           <Image
             src={"/logo.svg"}
@@ -44,10 +44,10 @@ const Footer = () => {
         </nav>
       </section>
 
-      <section className="flex justify-between items-center flex-wrap mt-10 border-t border-gray-100 sm:px-16 px-6 py-10">
+      <section className="flex flex-col md:flex-row justify-between items-center gap-5 mt-10 border-t border-gray-100 sm:px-16 px-6 py-6">
         <p>@{currentYear} Kenya Wheels. All rights reserved</p>
 
-        <nav className="footer__copyrights-link">
+        <nav className="footer__copyrights-link flex gap-4">
           <Link href="/" className="text-gray-500">
             Privacy & Policy
           </Link>

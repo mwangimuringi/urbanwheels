@@ -9,7 +9,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import Image from "next/image";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import { SearchManufacturerProps } from "@/types";
 import { manufacturers } from "@/constants";
@@ -19,7 +19,16 @@ const SearchManufacturer = ({
   setManufacturer,
 }: SearchManufacturerProps) => {
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState(query);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300); // Debounce delay
+
+    return () => clearTimeout(handler);
+  }, [query]);
+  
   const filteredManufacturers =
     query === ""
       ? manufacturers

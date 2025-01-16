@@ -1,96 +1,103 @@
-"use client"
-import React, { useState } from 'react'
-import Image from 'next/image'
+"use client";
+import React, { useState, useCallback, useEffect } from "react";
+import Image from "next/image";
 
-
-import SearchManufacturer from './SearchManufacturer'
-import { useRouter } from 'next/navigation';
-
+import SearchManufacturer from "./SearchManufacturer";
+import { useRouter } from "next/navigation";
 
 const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
-  <button type='submit' className={`-ml-3 z-10 ${otherClasses}`}>
+  <button
+    type="submit"
+    className={`-ml-3 z-10 ${otherClasses}`}
+    aria-label="Search"
+  >
     <Image
       src={"/magnifying-glass.svg"}
       alt={"magnifying glass"}
       width={40}
       height={40}
-      className='object-contain'
+      className="object-contain"
     />
   </button>
 );
 
 const SearchBar = () => {
-  const [manufacturer, setManufacturer] = useState('');
-  const [model, setModel] = useState('');
+  const [manufacturer, setManufacturer] = useState("");
+  const [model, setModel] = useState("");
+  const [debouncedModel, setDebouncedModel] = useState(model);
 
   const router = useRouter();
 
-  //car to be searched . we just change url pathname and not api
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSearch = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    if (manufacturer.trim() === "" && model.trim() === "") {
-      return alert("Please provide some input");
-    }
-      //how api is searched
-    updateSearchParams(model.toLowerCase(), manufacturer.toLowerCase());
-  };
+      if (manufacturer.trim() === "" && model.trim() === "") {
+        return alert("Please provide some input");
+      }
+      updateSearchParams(
+        debouncedModel.toLowerCase(),
+        manufacturer.toLowerCase()
+      );
+    },
+    [manufacturer, debouncedModel]
+  );
 
-  const updateSearchParams = (model: string, manufacturer: string) => {
-    // Create a new URLSearchParams object using the current URL search parameters
-    const searchParams = new URLSearchParams(window.location.search);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedModel(model);
+    }, 500); // 500ms debounce time
 
-    // Update or delete the 'model' search parameter based on the 'model' value
-    if (model) {
-      searchParams.set("model", model);
-    } else {
-      searchParams.delete("model");
-    }
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [model]);
 
-    // Update or delete the 'manufacturer' search parameter based on the 'manufacturer' value
-    if (manufacturer) {
-      searchParams.set("manufacturer", manufacturer);
-    } else {
-      searchParams.delete("manufacturer");
-    }
+  const updateSearchParams = useCallback(
+    (model: string, manufacturer: string) => {
+      const searchParams = new URLSearchParams(window.location.search);
 
-    // Generate the new pathname with the updated search parameters
-    const newPathname = `${window.location.pathname}?${searchParams.toString()}`;
+      if (model) searchParams.set("model", model);
+      else searchParams.delete("model");
 
-    router.push(newPathname); //called as a hook
-  };
+      if (manufacturer) searchParams.set("manufacturer", manufacturer);
+      else searchParams.delete("manufacturer");
+
+      router.push(`${window.location.pathname}?${searchParams.toString()}`);
+    },
+    [router]
+  );
 
   return (
-    <form className='searchbar' onSubmit={handleSearch}>
+    <form className="searchbar" onSubmit={handleSearch}>
       <div className="searchbar__item">
         <SearchManufacturer
           manufacturer={manufacturer}
           setManufacturer={setManufacturer}
         />
-
-        <SearchButton otherClasses='sm:hidden' />
+        <SearchButton otherClasses="sm:hidden" />
       </div>
-      <div className='searchbar__item'>
+      <div className="searchbar__item">
         <Image
-          src='/model-icon.png'
+          src="/model-icon.png"
           width={25}
           height={25}
-          className='absolute w-[20px] h-[20px] ml-4'
-          alt='car model'
+          className="absolute w-[20px] h-[20px] ml-4"
+          alt="car model"
         />
         <input
-          type='text'
-          name='model'
+          type="text"
+          name="model"
           value={model}
           onChange={(e) => setModel(e.target.value)}
-          placeholder='Tiguan...'
-          className='searchbar__input'
+          placeholder="Tiguan..."
+          className="searchbar__input pl-10" // Added padding-left for icon space
         />
-        <SearchButton otherClasses='sm:hidden' />
+        <SearchButton otherClasses="sm:hidden" />
       </div>
-      <SearchButton otherClasses='max-sm:hidden' />
+      <SearchButton otherClasses="max-sm:hidden" />
     </form>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

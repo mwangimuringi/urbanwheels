@@ -37,6 +37,21 @@ const SearchManufacturer = ({
             .includes(debouncedQuery.toLowerCase().replace(/\s+/g, ""))
         );
 
+  const highlightMatch = (text: string, query: string) => {
+    if (!query) return text;
+
+    const parts = text.split(new RegExp(`(${query})`, "gi"));
+    return parts.map((part, index) =>
+      part.toLowerCase() === query.toLowerCase() ? (
+        <span key={index} className="font-bold text-primary-blue">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
     <div className="search-manufacturer">
       <Combobox value={manufacturer} onChange={setManufacturer}>
@@ -86,9 +101,10 @@ const SearchManufacturer = ({
                       }`
                     }
                     value={item}
-                    tabIndex={0} // Keyboard focus
                   >
-                    <span className="block truncate">{item}</span>
+                    <span className="block truncate">
+                      {highlightMatch(item, debouncedQuery)}
+                    </span>
                   </ComboboxOption>
                 ))
               )}

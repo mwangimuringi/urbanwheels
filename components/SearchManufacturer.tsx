@@ -9,7 +9,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import Image from "next/image";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 
 import { SearchManufacturerProps } from "@/types";
 import { manufacturers } from "@/constants";
@@ -21,22 +21,20 @@ const SearchManufacturer = ({
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState(query);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 300); // Debounce delay
-
+  // Debounce query to optimize filtering
+  React.useEffect(() => {
+    const handler = setTimeout(() => setDebouncedQuery(query), 300);
     return () => clearTimeout(handler);
   }, [query]);
-  
+
   const filteredManufacturers =
-    query === ""
+    debouncedQuery === ""
       ? manufacturers
       : manufacturers.filter((item) =>
           item
             .toLowerCase()
             .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
+            .includes(debouncedQuery.toLowerCase().replace(/\s+/g, ""))
         );
 
   return (
@@ -71,12 +69,12 @@ const SearchManufacturer = ({
             leaveTo="opacity-0"
           >
             <ComboboxOptions className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {filteredManufacturers.length === 0 && query !== "" ? (
+              {filteredManufacturers.length === 0 && debouncedQuery !== "" ? (
                 <ComboboxOption
-                  value={query}
+                  value={debouncedQuery}
                   className="search-manufacturer__option"
                 >
-                  Create "{query}"
+                  Create "{debouncedQuery}"
                 </ComboboxOption>
               ) : (
                 filteredManufacturers.map((item) => (
@@ -88,6 +86,7 @@ const SearchManufacturer = ({
                       }`
                     }
                     value={item}
+                    tabIndex={0} // Keyboard focus
                   >
                     <span className="block truncate">{item}</span>
                   </ComboboxOption>

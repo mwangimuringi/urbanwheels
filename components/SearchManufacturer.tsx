@@ -9,7 +9,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import Image from "next/image";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 
 import { SearchManufacturerProps } from "@/types";
 import { manufacturers } from "@/constants";
@@ -19,23 +19,16 @@ const SearchManufacturer = ({
   setManufacturer,
 }: SearchManufacturerProps) => {
   const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState(query);
 
-  // Debounce query to optimize filtering
-  React.useEffect(() => {
-    const handler = setTimeout(() => setDebouncedQuery(query), 300);
-    return () => clearTimeout(handler);
+  // Use memoization to optimize filtering logic
+  const filteredManufacturers = useMemo(() => {
+    if (query === "") return manufacturers;
+
+    const normalizedQuery = query.toLowerCase().replace(/\s+/g, "");
+    return manufacturers.filter((item) =>
+      item.toLowerCase().replace(/\s+/g, "").includes(normalizedQuery)
+    );
   }, [query]);
-
-  const filteredManufacturers =
-    debouncedQuery === ""
-      ? manufacturers
-      : manufacturers.filter((item) =>
-          item
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(debouncedQuery.toLowerCase().replace(/\s+/g, ""))
-        );
 
   const highlightMatch = (text: string, query: string) => {
     if (!query) return text;
@@ -74,7 +67,7 @@ const SearchManufacturer = ({
             className="search-manufacturer__input"
             displayValue={(item: string) => item}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Volkswagen..."
+            placeholder="Search car manufacturers..."
             aria-label="Search for a car manufacturer"
           />
 
@@ -89,14 +82,10 @@ const SearchManufacturer = ({
               role="listbox"
               aria-label="List of car manufacturers"
             >
-              {filteredManufacturers.length === 0 && debouncedQuery !== "" ? (
-                <ComboboxOption
-                  value={debouncedQuery}
-                  className="search-manufacturer__option"
-                  role="option"
-                >
-                  Create "{debouncedQuery}"
-                </ComboboxOption>
+              {filteredManufacturers.length === 0 && query !== "" ? (
+                <div className="px-4 py-2 text-gray-500">
+                  No results found for "{query}". Try another search.
+                </div>
               ) : (
                 filteredManufacturers.map((item) => (
                   <ComboboxOption
@@ -111,7 +100,7 @@ const SearchManufacturer = ({
                     aria-selected="false"
                   >
                     <span className="block truncate">
-                      {highlightMatch(item, debouncedQuery)}
+                      {highlightMatch(item, query)}
                     </span>
                   </ComboboxOption>
                 ))

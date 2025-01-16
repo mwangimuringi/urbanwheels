@@ -91,7 +91,7 @@ const SearchBar = () => {
           value={model}
           onChange={(e) => setModel(e.target.value)}
           placeholder="Tiguan..."
-          className="searchbar__input pl-10" 
+          className="searchbar__input pl-10" // Added padding-left for icon space
         />
         <SearchButton otherClasses="sm:hidden" />
       </div>

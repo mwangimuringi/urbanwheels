@@ -28,7 +28,6 @@ const SearchBar = () => {
 
   const router = useRouter();
 
-  // Optimize with useCallback to prevent unnecessary re-renders
   const handleSearch = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -38,7 +37,7 @@ const SearchBar = () => {
       }
       updateSearchParams(
         debouncedModel.toLowerCase(),
-        manufacturer.toLowercase()
+        manufacturer.toLowerCase()
       );
     },
     [manufacturer, debouncedModel]
@@ -92,7 +91,7 @@ const SearchBar = () => {
           value={model}
           onChange={(e) => setModel(e.target.value)}
           placeholder="Tiguan..."
-          className="searchbar__input pl-10" // Added padding-left for icon space
+          className="searchbar__input pl-10" 
         />
         <SearchButton otherClasses="sm:hidden" />
       </div>

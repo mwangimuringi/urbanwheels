@@ -28,6 +28,7 @@ const SearchBar = () => {
 
   const router = useRouter();
 
+  // Optimize with useCallback to prevent unnecessary re-renders
   const handleSearch = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -37,7 +38,7 @@ const SearchBar = () => {
       }
       updateSearchParams(
         debouncedModel.toLowerCase(),
-        manufacturer.toLowerCase()
+        manufacturer.toLowercase()
       );
     },
     [manufacturer, debouncedModel]

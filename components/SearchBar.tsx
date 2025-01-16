@@ -35,10 +35,7 @@ const SearchBar = () => {
       if (manufacturer.trim() === "" && model.trim() === "") {
         return alert("Please provide some input");
       }
-      updateSearchParams(
-        debouncedModel.toLowerCase(),
-        manufacturer.toLowerCase()
-      );
+      setSearchParams(debouncedModel.toLowerCase(), manufacturer.toLowerCase());
     },
     [manufacturer, debouncedModel]
   );
@@ -53,20 +50,17 @@ const SearchBar = () => {
     };
   }, [model]);
 
-  const updateSearchParams = useCallback(
-    (model: string, manufacturer: string) => {
-      const searchParams = new URLSearchParams(window.location.search);
+  const setSearchParams = (model: string, manufacturer: string) => {
+    const searchParams = new URLSearchParams(window.location.search);
 
-      if (model) searchParams.set("model", model);
-      else searchParams.delete("model");
+    if (model) searchParams.set("model", model);
+    else searchParams.delete("model");
 
-      if (manufacturer) searchParams.set("manufacturer", manufacturer);
-      else searchParams.delete("manufacturer");
+    if (manufacturer) searchParams.set("manufacturer", manufacturer);
+    else searchParams.delete("manufacturer");
 
-      router.push(`${window.location.pathname}?${searchParams.toString()}`);
-    },
-    [router]
-  );
+    router.push(`${window.location.pathname}?${searchParams.toString()}`);
+  };
 
   return (
     <form className="searchbar" onSubmit={handleSearch}>

@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import CustomButton from "./CustomButton";
 import { updateSearchParams } from "@/utilities";
 
+export interface ShowMoreProps {
+  pageNumber: number; // Ensure pageNumber is a non-negative integer
+  isNext: boolean;    // Define isNext explicitly as a boolean
+}
+
 const ShowMore = ({ pageNumber, isNext }: ShowMoreProps) => {
   const router = useRouter();
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { ShowMoreProps } from "@/types"; 
+import { ShowMoreProps } from "@/types";
 import { useRouter } from "next/navigation";
 import CustomButton from "./CustomButton";
 import { updateSearchParams } from "@/utilities";

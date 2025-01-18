@@ -5,25 +5,13 @@ import { useRouter } from "next/navigation";
 import CustomButton from "./CustomButton";
 import { updateSearchParams } from "@/utilities";
 
-export interface ShowMoreProps {
-  pageNumber: number; // Ensure pageNumber is a non-negative integer
-  isNext: boolean;    // Define isNext explicitly as a boolean
-}
-
 const ShowMore = ({ pageNumber, isNext }: ShowMoreProps) => {
   const router = useRouter();
 
   const handleNavigation = () => {
-    try {
-      const newLimit = (pageNumber + 1) * 10;
-      const newPathname = updateSearchParams("limit", `${newLimit}`);
-      if (!newPathname) {
-        throw new Error("Failed to update search parameters");
-      }
-      router.push(newPathname);
-    } catch (error) {
-      console.error("Navigation Error:", error.message);
-    }
+    const newLimit = (pageNumber + 1) * 10;
+    const newPathname = updateSearchParams("limit", `${newLimit}`);
+    router.push(newPathname);
   };
 
   return (
@@ -32,11 +20,12 @@ const ShowMore = ({ pageNumber, isNext }: ShowMoreProps) => {
         <CustomButton
           btnType="button"
           title="Show More"
-          containerStyles="bg-primary-blue text-white rounded-full px-4 py-2 hover:bg-primary-blue-dark focus:ring focus:ring-offset-2 focus:ring-primary-blue-dark transition ease-in-out duration-200"
+          containerStyles="bg-primary-blue rounded-full text-white px-4 py-2 hover:bg-primary-blue-dark focus:ring-2 focus:ring-offset-2 focus:ring-primary-blue-dark"
           handleClick={handleNavigation}
           textStyles="font-medium"
           isDisabled={false}
           aria-label="Load more search results"
+          aria-pressed="false"
         />
       )}
     </div>

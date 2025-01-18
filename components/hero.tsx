@@ -11,6 +11,7 @@ const Hero = () => {
   const handleScroll = () => {
     try {
       console.log("Scroll to explore section.");
+      // Add actual scroll logic here, such as using scrollTo or smooth scrolling libraries.
     } catch (error) {
       console.error("Scroll error:", (error as Error).message);
     }
@@ -18,9 +19,14 @@ const Hero = () => {
 
   return (
     <div className="hero flex flex-col md:flex-row items-center justify-between px-5 py-10">
+      {/* Left Section */}
       <div className="flex-1 text-center md:text-left pt-10 md:pt-36 px-5">
-        <h1 className="hero__title text-4xl md:text-6xl font-bold">{TITLE}</h1>
-        <p className="hero__subtitle text-lg md:text-xl mt-5">{SUBTITLE}</p>
+        <h1 className="hero__title text-4xl md:text-6xl font-bold leading-tight">
+          {TITLE}
+        </h1>
+        <p className="hero__subtitle text-lg md:text-xl mt-5">
+          {SUBTITLE}
+        </p>
         <CustomButton
           title="Explore cars"
           containerStyles="bg-primary-blue text-white rounded-full mt-10 px-6 py-3 hover:bg-primary-blue-dark transition ease-in-out"
@@ -31,6 +37,8 @@ const Hero = () => {
           aria-label="Explore cars button"
         />
       </div>
+
+      {/* Right Section (Hero Image) */}
       <div className="hero__image-container flex justify-center mt-10 md:mt-0">
         <div className="hero__image relative w-full max-w-md md:max-w-lg">
           <Image

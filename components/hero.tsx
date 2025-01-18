@@ -9,7 +9,12 @@ const HERO_SUBTITLE = "Streamline your car rental experience with our effortless
 
 const Hero = () => {
   const handleScroll = () => {
-    console.log("Scroll to explore section.");
+    try {
+      console.log("Scroll to explore section.");
+      // Add scroll behavior here
+    } catch (error) {
+      console.error("Error during scroll:", (error as Error).message);
+    }
   };
 
   return (

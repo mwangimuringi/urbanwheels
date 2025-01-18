@@ -1,14 +1,9 @@
 "use client";
 
-import { ShowMoreProps } from "@/types";
+import { ShowMoreProps } from "@/types"; 
 import { useRouter } from "next/navigation";
 import CustomButton from "./CustomButton";
 import { updateSearchParams } from "@/utilities";
-
-export interface ShowMoreProps {
-  pageNumber: number; // Ensure pageNumber is a non-negative integer
-  isNext: boolean;    // Define isNext explicitly as a boolean
-}
 
 const ShowMore = ({ pageNumber, isNext }: ShowMoreProps) => {
   const router = useRouter();
@@ -22,7 +17,7 @@ const ShowMore = ({ pageNumber, isNext }: ShowMoreProps) => {
       }
       router.push(newPathname);
     } catch (error) {
-      console.error("Navigation Error:", error.message);
+      console.error("Navigation Error:", (error as Error).message);
     }
   };
 

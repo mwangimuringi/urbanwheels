@@ -4,23 +4,23 @@ import React from 'react';
 import CustomButton from './CustomButton';
 import Image from 'next/image';
 
-const HERO_TITLE = "Find, book, or rent a car – quickly and easily!";
-const HERO_SUBTITLE = "Streamline your car rental experience with our effortless booking process.";
+const TITLE = "Find, book, or rent a car – quickly and easily!";
+const SUBTITLE = "Streamline your car rental experience with our effortless booking process.";
 
 const Hero = () => {
   const handleScroll = () => {
     try {
       console.log("Scroll to explore section.");
     } catch (error) {
-      console.error("Error during scroll:", (error as Error).message);
+      console.error("Scroll error:", (error as Error).message);
     }
   };
 
   return (
     <div className="hero flex flex-col md:flex-row items-center justify-between px-5 py-10">
       <div className="flex-1 text-center md:text-left pt-10 md:pt-36 px-5">
-        <h1 className="hero__title text-4xl md:text-6xl font-bold">{HERO_TITLE}</h1>
-        <p className="hero__subtitle text-lg md:text-xl mt-5">{HERO_SUBTITLE}</p>
+        <h1 className="hero__title text-4xl md:text-6xl font-bold">{TITLE}</h1>
+        <p className="hero__subtitle text-lg md:text-xl mt-5">{SUBTITLE}</p>
         <CustomButton
           title="Explore cars"
           containerStyles="bg-primary-blue text-white rounded-full mt-10 px-6 py-3 hover:bg-primary-blue-dark transition ease-in-out"

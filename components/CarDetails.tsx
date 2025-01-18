@@ -120,9 +120,7 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
 
                     {carInfo.length > 0 && (
                       <div className="mt-3 flex flex-wrap gap-4">
-                        {carInfo.map(([key, value], index) =>
-                        
-                        (
+                        {carInfo.map(([key, value], index) => (
                           <CarInfoItem
                             key={`car-info-${index}`}
                             label={key.split("_").join(" ")}

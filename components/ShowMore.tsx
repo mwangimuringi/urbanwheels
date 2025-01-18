@@ -5,13 +5,21 @@ import { useRouter } from "next/navigation";
 import CustomButton from "./CustomButton";
 import { updateSearchParams } from "@/utilities";
 
+/**
+ * ShowMore Component
+ * Displays a button to load more results by updating the limit in the URL.
+ * @param {ShowMoreProps} props - Component properties including the current page number and navigation status.
+ */
 const ShowMore = ({ pageNumber, isNext }: ShowMoreProps) => {
   const router = useRouter();
 
+  /**
+   * Handle navigation to update the URL limit and fetch the next set of results.
+   */
   const handleNavigation = () => {
-    const newLimit = (pageNumber + 1) * 10;
-    const newPathname = updateSearchParams("limit", `${newLimit}`);
-    router.push(newPathname);
+    const newLimit = (pageNumber + 1) * 10; // Calculate the new limit
+    const newPathname = updateSearchParams("limit", `${newLimit}`); // Update URL params
+    router.push(newPathname); // Navigate to the updated URL
   };
 
   return (
@@ -25,7 +33,6 @@ const ShowMore = ({ pageNumber, isNext }: ShowMoreProps) => {
           textStyles="font-medium"
           isDisabled={false}
           aria-label="Load more search results"
-          aria-pressed="false"
         />
       )}
     </div>

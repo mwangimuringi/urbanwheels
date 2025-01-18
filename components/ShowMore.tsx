@@ -9,9 +9,16 @@ const ShowMore = ({ pageNumber, isNext }: ShowMoreProps) => {
   const router = useRouter();
 
   const handleNavigation = () => {
-    const newLimit = (pageNumber + 1) * 10;
-    const newPathname = updateSearchParams("limit", `${newLimit}`);
-    router.push(newPathname);
+    try {
+      const newLimit = (pageNumber + 1) * 10;
+      const newPathname = updateSearchParams("limit", `${newLimit}`);
+      if (!newPathname) {
+        throw new Error("Failed to update search parameters");
+      }
+      router.push(newPathname);
+    } catch (error) {
+      console.error("Navigation Error:", error.message);
+    }
   };
 
   return (

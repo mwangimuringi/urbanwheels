@@ -6,6 +6,13 @@ const useAuth = () => {
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
 
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      if (url.includes('/api/auth/callback')) {
+        setUser(null);
+      }
+    };
+
     router.events.on('routeChangeComplete', handleRouteChange);
 
     return () => {

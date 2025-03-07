@@ -19,3 +19,11 @@ const useAuth = () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
+
+  const { user: authUser } = useUser();
+
+  useEffect(() => {
+    if (authUser) {
+      setUser(authUser);
+    }
+  },

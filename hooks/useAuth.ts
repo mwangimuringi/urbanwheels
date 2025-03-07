@@ -26,4 +26,9 @@ const useAuth = () => {
     if (authUser) {
       setUser(authUser);
     }
-  },
+  }, [authUser]);
+
+  return { user };
+};
+
+export default useAuth;

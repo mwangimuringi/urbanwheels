@@ -18,4 +18,4 @@ const useAuth = () => {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
-  },
+  }, [router.events]);

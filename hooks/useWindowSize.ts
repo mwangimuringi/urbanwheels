@@ -10,15 +10,20 @@ const useWindowSize = () => {
   });
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
     const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }, 200);
     };
 
     window.addEventListener("resize", handleResize);
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener("resize", handleResize);
     };
   }, []);

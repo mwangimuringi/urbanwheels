@@ -21,7 +21,7 @@ const useWindowSize = (
             width: window.innerWidth,
             height: window.innerHeight,
           });
-        }, 200);
+        }, 100);
       };
 
       window.addEventListener("resize", handleResize, options);
@@ -32,7 +32,7 @@ const useWindowSize = (
     }
   }, [options]);
 
-  return useMemo(() => windowSize, [windowSize]);
+  return useMemo(() => windowSize, [windowSize.width, windowSize.height]);
 };
 
 export default useWindowSize;

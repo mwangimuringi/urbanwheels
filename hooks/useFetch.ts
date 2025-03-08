@@ -20,12 +20,13 @@ const useFetch = <T>(
     } catch (error: any) {
       if (attempts < retries) {
         setAttempts((prev) => prev + 1);
-        fetchData();
       } else {
         setError(error.message);
       }
     } finally {
-      setIsLoading(false);
+      if (attempts >= retries) {
+        setIsLoading(false);
+      }
     }
   }, [url, attempts, retries]);
 

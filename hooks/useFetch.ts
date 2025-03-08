@@ -1,39 +1,37 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const useFetch = <T>(
-  url: string
+  url: string,
+  retries: number = 3
 ): { data: T | null; error: string | null; isLoading: boolean } => {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [attempts, setAttempts] = useState(0);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      const result: T = await response.json();
+      setData(result);
+    } catch (error: any) {
+      if (attempts < retries) {
+        setAttempts((prev) => prev + 1);
+        fetchData();
+      } else {
+        setError(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [url, attempts, retries]);
 
   useEffect(() => {
-    const controller = new AbortController(); // AbortController to cancel the request if needed
-    const { signal } = controller;
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url, { signal });
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-        const result: T = await response.json();
-        setData(result);
-      } catch (error: any) {
-        if (error.name !== "AbortError") {
-          setError(error.message);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchData();
-
-    return () => {
-      controller.abort(); // Abort the fetch on cleanup
-    };
-  }, [url]);
+  }, [fetchData]);
 
   return { data, error, isLoading };
 };

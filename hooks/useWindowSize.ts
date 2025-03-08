@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 
-const useWindowSize = () => {
+const useWindowSize = (
+  options: AddEventListenerOptions = { passive: true }
+) => {
   const [windowSize, setWindowSize] = useState<{
     width: number;
     height: number;
@@ -21,12 +23,12 @@ const useWindowSize = () => {
       }, 200);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, options);
     return () => {
       clearTimeout(timeoutId);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleResize, options);
     };
-  }, []);
+  }, [options]);
 
   return windowSize;
 };

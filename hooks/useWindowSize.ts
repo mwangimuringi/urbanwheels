@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 const useWindowSize = (
   options: AddEventListenerOptions = { passive: true }
@@ -32,7 +32,7 @@ const useWindowSize = (
     }
   }, [options]);
 
-  return windowSize;
+  return useMemo(() => windowSize, [windowSize]);
 };
 
 export default useWindowSize;

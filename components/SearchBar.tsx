@@ -98,8 +98,6 @@ const SearchBar = () => {
       <SearchButton otherClasses="max-sm:hidden" />
     </form>
   );
-
-  
 };
 
 export default SearchBar;

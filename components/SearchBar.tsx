@@ -90,8 +90,6 @@ const SearchBar = () => {
           name="model"
           value={model}
           onChange={(e) => setModel(e.target.value)}
-
-          
           placeholder="Tiguan..."
           className="searchbar__input pl-10" // Added padding-left for icon space
         />
